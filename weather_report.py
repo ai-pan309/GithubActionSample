@@ -13,14 +13,15 @@ openId = os.environ.get("OPEN_ID")
 weather_template_id = os.environ.get("TEMPLATE_ID")
 
 def get_weather(my_city):
-    urls = ["http://www.weather.com.cn/textFC/hb.shtml",
-            "http://www.weather.com.cn/textFC/db.shtml",
-            "http://www.weather.com.cn/textFC/hd.shtml",
-            "http://www.weather.com.cn/textFC/hz.shtml",
-            "http://www.weather.com.cn/textFC/hn.shtml",
-            "http://www.weather.com.cn/textFC/xb.shtml",
-            "http://www.weather.com.cn/textFC/xn.shtml"
-            ]
+    urls = [
+        "http://www.weather.com.cn/textFC/hb.shtml",
+        "http://www.weather.com.cn/textFC/db.shtml",
+        "http://www.weather.com.cn/textFC/hd.shtml",
+        "http://www.weather.com.cn/textFC/hz.shtml",
+        "http://www.weather.com.cn/textFC/hn.shtml",
+        "http://www.weather.com.cn/textFC/xb.shtml",
+        "http://www.weather.com.cn/textFC/xn.shtml"
+    ]
     for url in urls:
         resp = requests.get(url)
         text = resp.content.decode("utf-8")
@@ -60,8 +61,7 @@ def get_weather(my_city):
 
 def get_access_token():
     # 获取access token的url
-    url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={}&secret={}' \
-        .format(appID.strip(), appSecret.strip())
+    url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={}&secret={}'.format(appID.strip(), appSecret.strip())
     response = requests.get(url).json()
     print(response)
     access_token = response.get('access_token')
@@ -114,7 +114,7 @@ def send_weather(access_token, weather):
         }
     }
     url = 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token={}'.format(access_token)
-    openIDs = openId.strip().split(":")
+    openIDs = openId.strip().split("\n")
     for openid in openIDs:
         body["touser"] = openid
         print(requests.post(url, json.dumps(body)).text)
