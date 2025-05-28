@@ -114,7 +114,10 @@ def send_weather(access_token, weather):
         }
     }
     url = 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token={}'.format(access_token)
-    print(requests.post(url, json.dumps(body)).text)
+    openIDs = openId.strip().split(":")
+    for openid in openIDs:
+        body["touser"] = openid
+        print(requests.post(url, json.dumps(body)).text)
 
 
 
